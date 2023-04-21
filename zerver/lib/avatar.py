@@ -134,6 +134,10 @@ def absolute_avatar_url(user_profile: UserProfile) -> str:
     """
     avatar = avatar_url(user_profile)
     # avatar_url can return None if client_gravatar=True, however here we use the default value of False
+    # Check the scenario if the avatar is filled with valid values
+    # If not, fill it with default value
+    if avatar is None:
+        avatar = staticfiles_storage.url("images/default-avatar.png")
     assert avatar is not None
     return urllib.parse.urljoin(user_profile.realm.uri, avatar)
 
